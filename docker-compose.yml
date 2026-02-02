@@ -1,0 +1,52 @@
+version: '3.8'
+services:
+  # MySQL with Binlog enabled (Debezium image)
+  mysql:
+    image: debezium/example-mysql:1.9
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=debezium
+      - MYSQL_USER=mysqluser
+      - MYSQL_PASSWORD=mysqlpw
+    volumes:
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  # Elasticsearch for the Sink
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.9
+    ports:
+      - "9200:9200"
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+
+  # Flink JobManager
+  jobmanager:
+    build:
+      context: ./sql
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    command: jobmanager
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+    volumes:
+      - .:/opt/flink/usrlib
+  # Flink TaskManager
+  taskmanager:
+    build:
+      context: ./sql
+      dockerfile: Dockerfile
+    depends_on:
+      - jobmanager
+    command: taskmanager
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+        taskmanager.numberOfTaskSlots: 2
+    volumes:
+      - .:/opt/flink/usrlib
