@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="400" viewBox="0 0 1200 400">
+  <defs>
+    <style>
+      .box { fill: #ffffff; stroke: #333333; stroke-width: 2; }
+      .label { font-family: Arial, sans-serif; font-size: 16px; fill: #111111; }
+      .small { font-size: 14px; }
+      .title { font-size: 18px; font-weight: bold; }
+      .arrow { stroke: #333333; stroke-width: 2; marker-end: url(#arrowhead); }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333333" />
+    </marker>
+  </defs>
+
+  <!-- MySQL sources -->
+  <rect x="40" y="70" width="160" height="80" class="box" />
+  <text x="120" y="115" text-anchor="middle" class="label title">MySQL</text>
+  <text x="120" y="135" text-anchor="middle" class="label small">customers</text>
+
+  <rect x="40" y="230" width="160" height="80" class="box" />
+  <text x="120" y="275" text-anchor="middle" class="label title">MySQL</text>
+  <text x="120" y="295" text-anchor="middle" class="label small">orders</text>
+
+  <!-- Flink container -->
+  <rect x="300" y="40" width="560" height="320" class="box" />
+  <text x="580" y="70" text-anchor="middle" class="label title">Flink (PyFlink CDC Job)</text>
+
+  <!-- Flink sources -->
+  <rect x="340" y="100" width="180" height="70" class="box" />
+  <text x="430" y="135" text-anchor="middle" class="label">mysql-cdc source</text>
+  <text x="430" y="155" text-anchor="middle" class="label small">customers</text>
+
+  <rect x="340" y="220" width="180" height="70" class="box" />
+  <text x="430" y="255" text-anchor="middle" class="label">mysql-cdc source</text>
+  <text x="430" y="275" text-anchor="middle" class="label small">orders</text>
+
+  <!-- Join operator -->
+  <rect x="560" y="160" width="140" height="70" class="box" />
+  <text x="630" y="195" text-anchor="middle" class="label">Join</text>
+  <text x="630" y="215" text-anchor="middle" class="label">Operator</text>
+
+  <!-- Elasticsearch sink -->
+  <rect x="730" y="160" width="120" height="70" class="box" />
+  <text x="790" y="195" text-anchor="middle" class="label">ES Sink</text>
+
+  <!-- Elasticsearch -->
+  <rect x="930" y="150" width="220" height="100" class="box" />
+  <text x="1040" y="190" text-anchor="middle" class="label title">Elasticsearch</text>
+  <text x="1040" y="215" text-anchor="middle" class="label small">index: enriched_orders</text>
+
+  <!-- Arrows -->
+  <line x1="200" y1="110" x2="340" y2="135" class="arrow" />
+  <line x1="200" y1="270" x2="340" y2="255" class="arrow" />
+
+  <line x1="520" y1="135" x2="560" y2="190" class="arrow" />
+  <line x1="520" y1="255" x2="560" y2="195" class="arrow" />
+
+  <line x1="700" y1="195" x2="730" y2="195" class="arrow" />
+  <line x1="850" y1="195" x2="930" y2="200" class="arrow" />
+
+  <!-- Arrow labels -->
+  <text x="250" y="120" class="label small">CDC (binlog)</text>
+  <text x="250" y="260" class="label small">CDC (binlog)</text>
+  <text x="865" y="185" class="label small">JSON</text>
+</svg>
